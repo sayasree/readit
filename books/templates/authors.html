@@ -1,21 +1,16 @@
+{% extends "base.html" %}
 {% load humanize %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Book Detail Page</title>
-    </head>
-    <body>
-        <header>
-            <p>Listof All Authors</p>
-        </header>
-        <main>
-            <h3>There are: {{ authors.count | apnumber | title }} author{{ authors.count | pluralize }}</h3>
-            {% for author in authors %}
-                <p> 
-                    {{ author.name }} 
-                </p>
-            {% endfor %}
+{% block content %}
+    <header>
+        <p>Listof All Authors</p>
+    </header>
+    <main>
+        <h3>There are: {{ authors.count | apnumber | title }} author{{ authors.count | pluralize }}</h3>
+        {% for author in authors %}
+            <p> 
+                {{ author.name }} 
+            </p>
+        {% endfor %}
     </main>
-    <body>
-</html>
+{% endblock %}

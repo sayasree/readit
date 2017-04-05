@@ -1,43 +1,9 @@
+{% extends "base.html" %}
 {% load humanize %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <style>
-            .highlight {
-                color: blue;
-                font-weight: bold;
-            }
-        </style>
-    </head>
-    <body>
-        <header>
-            <p>Welcome Web Development with Django</p>
-            {% if request.user.is_authenticated %}
-            <p>
-                Hello, {{ request.user.username | upper }}! Last time you logged in at: {{ request.user.last_login|date:"D dMY"}}.
-                &lcub;&lcub; &rcub;&rcub; is Django handlebar template syntax. &lcub;&percnt; &percnt;&rcub; is tag template syntax.
-            </p>
-            {% else %}
-            <p>
-                Hello, Welcome Guest!
-            </p>
-            {% endif %}
-            
-        </header>
-        <main>
-            <header>
-                <h3>You are viewing: {{ books.count | apnumber | title }} book{{ books.count |pluralize }}</h3>
-                {% for book in books %}
-                    <p> 
-                    {{ book.title }} by {{ book.list_authors }}
-                    {% if book.is_favourite %}
-                        <span class="highlight">favourite</span>
-                    {% endif %}
-                    Review: {{ book.review }}
-                    </p>
-                {% endfor %}
-            </header>
-        </main>
-    <body>
-</html>
+{% block content %}
+    <h3>You are viewing: {{ books.count | apnumber | title }} book{{ books.count |pluralize }}</h3>
+    {% for book in books %}
+        {% include "book-detail.html" %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,10 @@
+<section class="book">
+    <h3> {{ book.title }} </h3>
+    <p>
+        By {% for author in book.authors.all %}{{ author.name }} {% endfor %}
+    </p>
+    {% if book.is_favourite %}
+        <span class="highlight">favourite</span>
+    {% endif %}
+    <p>Review: {{ book.review | linebreaks }}</p>
+</section>
