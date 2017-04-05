@@ -23,17 +23,18 @@
                 Hello, Welcome Guest!
             </p>
             {% endif %}
+            
         </header>
         <main>
             <header>
-                <h3>You are viewing: {{ bookCount | apnumber | title }} book{{ bookCount | pluralize }}</h3>
+                <h3>You are viewing: {{ books.count | apnumber | title }} book{{ books.count |pluralize }}</h3>
                 {% for book in books %}
                     <p> 
-                        {{ book.title }} by {{ book.list_authors }}
-                        {% if book.is_favourite %}
-                            <span class="highlight">favourite</span>
-                        {% endif %}
-                        Review: {{ book.review }}
+                    {{ book.title }} by {{ book.list_authors }}
+                    {% if book.is_favourite %}
+                        <span class="highlight">favourite</span>
+                    {% endif %}
+                    Review: {{ book.review }}
                     </p>
                 {% endfor %}
             </header>
