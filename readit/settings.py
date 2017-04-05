@@ -25,8 +25,9 @@ SECRET_KEY = 'yqk*62so((+w5)-6$tu&1gqky3&c24t1b^_ubfp+m(lm@f0a!8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ '127.0.0.1' ]
 
+INTERNAL_IPS = [ '127.0.0.1' ]
 
 # Application definition
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'debug_toolbar',
     'books',
 ]
