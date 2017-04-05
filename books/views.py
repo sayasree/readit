@@ -2,7 +2,7 @@ from django.shortcuts import render
 # from django.http import HttpResponse
 from .models import Author, Book
 
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from django.db.models import Count
 
 # Create your views here.
@@ -19,6 +19,7 @@ def list_books(request):
     return render(request, "list.html", context)
 
     
+# The following is a class-based view    
 class AuthorList(View):
     def get(self, request):
         # authors = Author.objects.all()
@@ -28,3 +29,16 @@ class AuthorList(View):
                                         
         context = { 'authors' : authors, }
         return render(request, "authors.html", context)
+   
+# This is class-based generic view
+class BookDetail(DetailView):
+    model = Book
+    template_name = "book.html"
+    
+# This is class-based generic view
+class AuthorDetail(DetailView):
+    model = Author
+    template_name = "author.html"
+    
+    
+    

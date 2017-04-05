@@ -3,21 +3,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Authors Page</title>
+        <title>Book Detail Page</title>
     </head>
     <body>
         <header>
             <p>Listof All Authors</p>
         </header>
         <main>
-            <header>
-                <h3>There are: {{ authors.count | apnumber | title }} author{{ authors.count | pluralize }}</h3>
-                {% for author in authors %}
-                    <p> 
-                        {{ author.name }} 
-                    </p>
-                {% endfor %}
-            </header>
-        </main>
+            <h3>There are: {{ authors.count | apnumber | title }} author{{ authors.count | pluralize }}</h3>
+            {% for author in authors %}
+                <p> 
+                    {{ author.name }} 
+                </p>
+            {% endfor %}
+    </main>
     <body>
 </html>

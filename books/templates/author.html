@@ -1,0 +1,36 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Author Details Page</title>
+        <style>
+            .highlight {
+                color: blue;
+                font-weight: bold;
+            }
+        </style>        
+    </head>
+    <body>
+        <header>
+            <p>Autho Details</p>
+        </header>
+        <main>
+            <section>
+                <h3> {{ author.name }} </h3>
+                {% for book in author.books.all %}
+                    {% if book.review %}
+                        <section class="book">
+                            <h3> {{ book.title }} </h3>
+                            {% if book.is_favourite %}
+                                <span class="highlight">favourite</span>
+                            {% endif %}
+                            <p>{{ book.review | linebreaks }}</p>
+                        </section>
+                    {% endif %}
+                {% endfor %}
+            </section>
+
+        </main>
+    <body>
+</html>
