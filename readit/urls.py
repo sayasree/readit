@@ -19,9 +19,15 @@ from django.contrib import admin
 
 from books.views import list_books, AuthorList, BookDetail, AuthorDetail
 
+# Access the pages with the following URLs
+#   http://127.0.0.1:8000/
+#   http://127.0.0.1:8000/admin
+#   http://127.0.0.1:8000/authors/
+#   http://127.0.0.1:8000/books/3
+#   http://127.0.0.1:8000/authors/1
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', list_books, name="books"),
     url(r'^$', list_books, name="books"),
     url(r'^authors/$', AuthorList.as_view(), name="authors"),
     url(r'^books/(?P<pk>[-\w]+)/$', BookDetail.as_view(), name="book-detail"),
