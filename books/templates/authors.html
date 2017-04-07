@@ -9,7 +9,7 @@
         <h3>There are: {{ authors.count | apnumber | title }} author{{ authors.count | pluralize }}</h3>
         {% for author in authors %}
             <p> 
-                {{ author.name }} 
+                <a href="{% url 'author-detail' author.pk %}">{{ author.name }}</a>
             </p>
         {% endfor %}
     </main>

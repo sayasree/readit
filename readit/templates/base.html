@@ -1,15 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>ReadIt"</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device_width, initial-scale=1">
-        <style>
-            .highlight {
-                color: blue;
-                font-weight: bold;
-            }
-        </style>         
+        <link rel="stylesheet" href="{% static 'css/readit.css' %}"
     </head>
     <body>
         <header>
@@ -25,6 +22,10 @@
             </p>
             {% endif %}
         </header>
+        <nav>
+            <a href="{% url 'books' %}">Books</a>
+            <a href="{% url 'authors' %}">Authors</a>
+        </nav>
         <main>
             {% block content%} {% endblock %}
         </main>
