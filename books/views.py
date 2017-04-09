@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.http import HttpResponse
 from .models import Author, Book
-from .forms import ReviewForm
+from .forms import ReviewForm, BookForm
 
 from django.views.generic import View, DetailView
 from django.db.models import Count
@@ -42,17 +42,36 @@ class AuthorDetail(DetailView):
     template_name = "author.html"
     
 # The following is a function-based view
-def review_books(request):
+#def review_books(request):
+class ReviewList(View):
+
     """
     List all of the books that we want to review.
     """
-    books = Book.objects.filter(date_reviewed__isnull=True).prefetch_related('authors')
+    def get(self, request):
+        books = Book.objects.filter(date_reviewed__isnull=True).prefetch_related('authors')
 
-    context = {
-        'books': books,
-    }
+        context = {
+            'books': books,
+            'form' : BookForm
+        }
 
-    return render(request, "list-to-review.html", context)
+        return render(request, "list-to-review.html", context)
+        
+    def post(self, request):
+        form = BookForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('review-books')
+        
+        books = Book.objects.filter(date_reviewed__isnull=True).prefetch_related('authors')
+        context = {
+            'books': books,
+            'form' : form
+        }  
+        
+        return render(request, "list-to-review.html", context)
 
 # The following is a function-based view
 def review_book(request, pk):
@@ -79,3 +98,4 @@ def review_book(request, pk):
     return render(request, "review-book.html", context)
 
     
+  

@@ -25,4 +25,10 @@
 	{% else %}
 		<p>There are no books waiting to be reviewed.  Good job!</p>
 	{% endif %}
+    <h2>Request a New Review</h2>
+    <form method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Add Book</button>
+    
 {% endblock %}
