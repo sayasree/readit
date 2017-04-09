@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 # from django.http import HttpResponse
 from .models import Author, Book
 from .forms import ReviewForm
@@ -43,31 +43,39 @@ class AuthorDetail(DetailView):
     
 # The following is a function-based view
 def review_books(request):
-	"""
-	List all of the books that we want to review.
-	"""
-	books = Book.objects.filter(date_reviewed__isnull=True).prefetch_related('authors')
-	
-	context = {
-		'books': books,
-	}
-	
-	return render(request, "list-to-review.html", context)
-	
+    """
+    List all of the books that we want to review.
+    """
+    books = Book.objects.filter(date_reviewed__isnull=True).prefetch_related('authors')
+
+    context = {
+        'books': books,
+    }
+
+    return render(request, "list-to-review.html", context)
+
 # The following is a function-based view
 def review_book(request, pk):
-	"""
-	Review an individual book
-	"""
-	book = get_object_or_404(Book, pk=pk)
-	form = ReviewForm
+    """
+    Review an individual book
+    """
+    book = get_object_or_404(Book, pk=pk)
     
-	context = {
-		'book': book,
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            book.is_favourite = form.cleaned_data['is_favourite']
+            book.review = form.cleaned_data['review']
+            book.save()
+            return redirect('review-books')
+    else:
+        form = ReviewForm
+    
+    context = {
+        'book': book,
         'form': form,
-	}
-	
-	return render(request, "review-book.html", context)
-	
- 
+    }
+
+    return render(request, "review-book.html", context)
+
     
