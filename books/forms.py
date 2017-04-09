@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book
+from .models import Book, Author
 
 class ReviewForm(forms.Form):
     '''
