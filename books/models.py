@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.timezone import now
 
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -10,6 +11,7 @@ class Book(models.Model):
     # author = models.CharField(max_length=70, help_text="Use pen name, rather than real name")
     authors = models.ManyToManyField("Author", related_name="books")
     review = models.TextField(blank=True, null=True)
+    reviewed_by = models.ForeignKey(User, blank=True, null=True, related_name="reviews")
     date_reviewed = models.DateTimeField(blank=True, null=True)
     is_favourite = models.BooleanField(default=False, verbose_name="Favourite?")
     
