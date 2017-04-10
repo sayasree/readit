@@ -21,3 +21,24 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = ['title', 'authors']
         
+    def clean(self):
+        # Call the clean method of the super to maintain the main validation and error messages
+        # super(BookForm, self).clean()   # This is older syntax
+        super().clean()
+
+        try:
+            title = self.cleaned_data.get('title')
+            authors = self.cleaned_data.get('authors')
+            book = Book.objects.get(title=title, authors=authors)
+            
+            # If there is match, then the control comes here and it indicates that there a books with the same title and the authors and hence it is a duplicate
+            raise forms.ValidationError("There book: {} by authors: {} already exists".format(title, book.list_authors()),
+                                       code="BookExists")
+        except Book.DoesNotExist:
+            return self.cleaned_data
+            
+            
+            
+
+        
+        

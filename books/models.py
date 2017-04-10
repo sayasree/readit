@@ -25,7 +25,9 @@ class Book(models.Model):
             self.date_reviewed = now() # Builtin datetime utility
         
         # Call the superclass method
-        super(Book, self).save(*args, **kwargs)
+        # super(Book, self).save(*args, **kwargs)  # This is older syntax
+        super().save(*args, **kwargs)
+        
         
 class Author(models.Model):
     name = models.CharField(max_length=70, 
