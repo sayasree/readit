@@ -7,6 +7,8 @@ from django.views.generic import View, DetailView
 from django.db.models import Count
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import CreateView
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 # The following is a function-based view
@@ -76,6 +78,7 @@ class ReviewList(View):
         return render(request, "list-to-review.html", context)
 
 # The following is a function-based view
+@login_required
 def review_book(request, pk):
     """
     Review an individual book

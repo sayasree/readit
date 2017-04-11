@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import views as auth_views
 from books.views import (list_books, AuthorList, BookDetail, AuthorDetail,
                         review_book, ReviewList, CreateAuthor)
 
@@ -31,15 +31,22 @@ from books.views import (list_books, AuthorList, BookDetail, AuthorDetail,
 #   http://127.0.0.1:8000/review/<bookId>
 
 urlpatterns = [
+    # Authentication
+    url(r'^signin/$', auth_views.login, { 'template_name' : 'signin.html'  }, name="signin"),    
+    url(r'^signout/$', auth_views.logout, { 'next_page' : 'books' }, name="signout"),
+    
+    # Admin
     url(r'^admin/', admin.site.urls),
+    
+    # Custom Views
     url(r'^$', list_books, name="books"),
     url(r'^authors/$', AuthorList.as_view(), name="authors"),
     url(r'^books/(?P<pk>[-\w]+)/$', BookDetail.as_view(), name="book-detail"),
-    url(r'^authors/add/$', CreateAuthor.as_view(), name="add-author"),
+    url(r'^authors/add/$', login_required(CreateAuthor.as_view()), name="add-author"),
     url(r'^authors/(?P<pk>[-\w]+)/$', AuthorDetail.as_view(), name="author-detail"),
 
     # url(r'^review/$', review_books, name='review-books'),
-     url(r'^review/$', ReviewList.as_view(), name='review-books'),
+     url(r'^review/$', login_required(ReviewList.as_view()), name='review-books'),
     url(r'^review/(?P<pk>[-\w]+)/$', review_book, name='review-book'),
     
 ]
