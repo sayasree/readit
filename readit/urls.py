@@ -32,7 +32,7 @@ from books.views import (list_books, AuthorList, BookDetail, AuthorDetail,
 
 urlpatterns = [
     # Authentication
-    url(r'^signin/$', auth_views.login, { 'template_name' : 'signin.html'  }, name="signin"),    
+    url(r'^signin/$', auth_views.login, kwargs={'template_name' : 'signin.html'}, name="signin"),    
     url(r'^signout/$', auth_views.logout, { 'next_page' : 'books' }, name="signout"),
     
     # Admin
