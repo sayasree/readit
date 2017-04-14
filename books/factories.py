@@ -50,6 +50,6 @@ class ReviewFactory(BookFactory):
     '''
     review = factory.Faker('text', max_nb_chars=400)
     date_reviewed = now()
-    reviewed_by = factory.SubFactory(UserFactory):
+    reviewed_by = factory.SubFactory(UserFactory)
     
     
