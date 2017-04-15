@@ -31,4 +31,5 @@ class BookFormTest(TestCase):
         form = BookForm(data={'title' : 'My New Book', 'authors': [new_author.pk,]})
 
         self.assertTrue(form.is_valid())
+
         
