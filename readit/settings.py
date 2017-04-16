@@ -15,22 +15,33 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# NOTE: DJANGO_MODE, SECRET_KEY and ALLOWED_HOSTS are set in the postactivate.bat file
+# postactivate.bat has to be executed before starting the server with: python manage.py runserver
 
+DJANGO_MODE = os.getenv('DJANGO_MODE', "Production").lower()
+print("DJANGO_MODE={}".format(DJANGO_MODE))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'yqk*62so((+w5)-6$tu&1gqky3&c24t1b^_ubfp+m(lm@f0a!8'
+#SECRET_KEY = 'yqk*62so((+w5)-6$tu&1gqky3&c24t1b^_ubfp+m(lm@f0a!8'
 
+SECRET_KEY = os.getenv('SECRET_KEY')
+print("SECRET_KEY=", SECRET_KEY)
+#DJANGO_MODE='local'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = False
+if DJANGO_MODE == 'local':
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = [ '127.0.0.1' ]
+#ALLOWED_HOSTS = [ '127.0.0.1' ]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 INTERNAL_IPS = [ '127.0.0.1' ]
 
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,10 +51,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'debug_toolbar',
     'books',
 ]
 
+if DJANGO_MODE == 'local':
+    INSTALLED_APPS += ('debug_toolbar', )
+    
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,13 +92,16 @@ WSGI_APPLICATION = 'readit.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DJANGO_MODE == 'local':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
-
+    print("INFO: DATABASES variable is set in the settings.py")
+else:
+    print(">>>> CUSTOM ERROR: DATABASES variable is not set in the settings.py <<<<")
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
