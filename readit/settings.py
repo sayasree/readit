@@ -99,8 +99,20 @@ if DJANGO_MODE == 'local':
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-    print("INFO: DATABASES variable is set in the settings.py")
-else:
+    print("INFO: SQLite3 has been configured for Local environment")
+elif DJANGO_MODE == 'staging':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST', '127.0.0.1'),
+            'PORT': os.getenv('DB_PORT', 5432),
+        }
+    }
+    print("INFO: PostgreSQL database has been configured for Staging environment")
+else:    
     print(">>>> CUSTOM ERROR: DATABASES variable is not set in the settings.py <<<<")
 
 # Password validation
